@@ -1,0 +1,26 @@
+[
+    {
+        "userId": 1,
+        "gameType": "3",
+        "bet": 10,
+        "isWin": true,
+        "payout": 50,
+        "date": "2026-03-28 09:44:03"
+    },
+    {
+        "userId": 1,
+        "gameType": "3",
+        "bet": 100,
+        "isWin": false,
+        "payout": 0,
+        "date": "2026-03-28 09:44:34"
+    },
+    {
+        "userId": 1,
+        "gameType": "2",
+        "bet": 100,
+        "isWin": false,
+        "payout": 0,
+        "date": "2026-03-28 09:44:43"
+    }
+]
