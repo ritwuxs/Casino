@@ -7,7 +7,8 @@ use Games\AbstractGame;
 class CoinFlip extends AbstractGame
 {
     private int $userChoice;
-    public function __construct(float $bet, int $userChoice)
+    // TODO: добавить поле coinSide (вынести в enum)
+    public function __construct(float $bet, int $userChoice) 
     {
         parent::__construct($bet);
         $this->userChoice = $userChoice;

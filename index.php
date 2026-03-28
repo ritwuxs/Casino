@@ -22,9 +22,10 @@ use Games\Dice;
 use Games\CoinFlip;
 use Games\Slots;
 
-$userStorage = new JsonStorage('users.json');
+// TODO: вынести все из этого в CasinoController, приватные поля, основной метод, вспомогательные (в этом файле мы просто создаим объект контроллера, вызовем основной метод)
 
-$historyStorage = new JsonStorage('history.json');
+$userStorage = new JsonStorage('users.json'); // TODO: переместить storages в сервисы, и общаться с ними там
+$historyStorage = new JsonStorage('history.json'); // TODO: переместить storages в сервисы, и общаться с ними там
 
 $userService = new UserService($userStorage);
 
@@ -61,20 +62,21 @@ while (true) {
     echo "4. See balance" . PHP_EOL;
     echo "5. Statistics" . PHP_EOL;
     echo "6. Exit" . PHP_EOL;
+    // TODO: добавить возможность выйти из аккаунта и зайти в другой (logout)
     $choise = readline("Choose action: ");
     switch ($choise) {
-        case '1':
+        case '1': // TODO: вынести всю логику по игре в GameService
             try {
                 $input = readline("Enter your bet: ");
                 $bet = (float)$input;
                 if ($bet < 0) {
-                    throw new BetException("Bet can not be negative");
+                    throw new BetException("Bet can not be negative"); // TODO: Добавить конкретные исключения
                 }
                 if ($bet > $currentUser->getBalance()) {
-                    throw new BetException("Bet can not be bigger than balance");
+                    throw new BetException("Bet can not be bigger than balance"); // TODO: Добавить конкретные исключения
                 }
-                if ($bet < 10) {
-                    throw new BetException("Minimal bet is 10");
+                if ($bet < 10) { // TODO: у каждой игры своя минимальная ставка
+                    throw new BetException("Minimal bet is 10"); // TODO: Добавить конкретные исключения
                 }
             } catch (BetException $e) {
                 echo "Error: " . $e->getMessage() . PHP_EOL;
@@ -88,7 +90,7 @@ while (true) {
             $choise2 = readline("Choose game: ");
             switch ($choise2) {
                 case '1':
-                    $num = (int)readline("What number do we bet on? (1-6)? ");
+                    $num = (int)readline("What number do we bet on? (1-6)? "); // TODO: ввод это часть игры (вынести в play)
                     $game = new Dice($bet, $num);
                     break;
 
@@ -138,11 +140,16 @@ while (true) {
             echo "Your balance: " . $currentUser->getBalance() . " grn" . PHP_EOL;
             break;
 
+        // TODO: вынести в getUserStatisics(): array 
+        // TODO: (!!! пока не делаем) усложнить статистику, добавить больше данных
         case '5':
-            $history = $historyStorage->read();
+            $history = $historyStorage->read(); // TODO: вынесем получение истории в HistoryService, getUserHistory(int $userId)
             $myGames = array_filter($history, function ($g) use ($currentUser) {
                 return isset($g['userId']) && $g['userId'] === $currentUser->getUserId();
             });
+
+            // $history = $historyService->getUserHistory($currentUser->getUserId());
+
             $total = count($myGames);
             if ($total > 0) {
                 $wins = count(array_filter($myGames, function ($g) {

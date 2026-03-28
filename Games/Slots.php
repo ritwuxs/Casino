@@ -10,6 +10,7 @@ class Slots extends AbstractGame
     {
         parent::__construct($bet);
     }
+    // TODO: (!!! Пока что делать не надо) - На будущее будем усложнять логику слотов
     public function play(): array
     {
         $slot1 = random_int(1, 5);

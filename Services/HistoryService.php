@@ -11,14 +11,14 @@ class HistoryService
     {
         $this->storage = $storage;
     }
-    public function logGame($userId, $type, $bet, $isWin, $payout): void
+    public function logGame($userId, $type, $bet, $isWin, $payout): void // TODO: добавить типизацию параметров
     {
         $history = $this->storage->read();
         $history[] = [
             'userId'   => $userId,
-            'gameType' => $type,  
+            'gameType' => $type,
             'bet'      => $bet,
-            'isWin'    => $isWin, 
+            'isWin'    => $isWin,
             'payout'   => $payout,
             'date'     => date('Y-m-d H:i:s')
         ];
@@ -30,7 +30,7 @@ class HistoryService
         $allHistory = $this->storage->read();
 
         echo "=== Your game history ===" . PHP_EOL;
-        echo "Game | Bet | Win | Status" . PHP_EOL; 
+        echo "Game | Bet | Win | Status" . PHP_EOL;
         echo "---------------------------------" . PHP_EOL;
         $found = false;
         foreach ($allHistory as $record) {
