@@ -1,6 +1,7 @@
 <?php
 
 namespace Services;
+
 use Models\User;
 use Exceptions\UserAlreadyExistsException;
 use Exceptions\UserNotFoundException;
@@ -8,7 +9,8 @@ use Exceptions\UserNotFoundException;
 use Helper\JsonStorage;
 
 
-class AuthService{
+class AuthService
+{
     private JsonStorage $storage;
     public function __construct(JsonStorage $storage)
     {
@@ -19,7 +21,7 @@ class AuthService{
     {
         $users = $this->storage->read();
         foreach ($users as $user) {
-            if ($user['user_name'] === $name) {
+            if ($user['user_name'] === $name && $user['password'] === $password) {
                 throw new UserAlreadyExistsException(); // DO: конкретное исключение
             }
         }
@@ -33,7 +35,7 @@ class AuthService{
 
         $this->storage->write($users);
     }
-     public function login(string $name,string $password): User
+    public function login(string $name, string $password): User
     {
         $users = $this->storage->read();
         foreach ($users as $user) {
@@ -41,12 +43,11 @@ class AuthService{
                 return new User(
                     $user['user_id'],
                     $user['user_name'],
-                   (float) $user['balance'],
+                    (float) $user['balance'],
                     $user['password']
                 );
             }
         }
         throw new UserNotFoundException(); // DO: UserNotFoundException
     }
-
 }

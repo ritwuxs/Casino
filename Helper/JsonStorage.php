@@ -1,7 +1,7 @@
 <?php
 
 namespace Helper;
-
+use Exceptions\InvalidArgumentException;
 use Exceptions\FileDoNotExists;
 
 class JsonStorage
@@ -21,14 +21,14 @@ class JsonStorage
             return [];
         }
         $data = json_decode($content, true);
-        if (json_last_error() !== JSON_ERROR_NONE || !is_array($data)) { // TODO: разобраться что делает это условие
-            return []; // TODO: возможно выбросить исключение
+        if (json_last_error() !== JSON_ERROR_NONE || !is_array($data)) { // DO: разобраться что делает это условие
+            throw new InvalidArgumentException(); // DO: возможно выбросить исключение
         }
         return $data;
     }
     public function write(array $data): void
     {
-        $jsonString = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE); // TODO: разобраться что значат эти флаги
+        $jsonString = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE); // DO: разобраться что значат эти флаги
         file_put_contents($this->filePath, $jsonString);
     }
 }
