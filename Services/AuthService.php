@@ -17,20 +17,20 @@ class AuthService
         $this->storage = $storage;
     }
 
-    public function registration(string $name, string $password): void // DO: добавить пароль, подтверждение пароля
+    public function registration(string $name, string $password): void // TODO: подтверждение пароля
     {
         $users = $this->storage->read();
         foreach ($users as $user) {
-            if ($user['user_name'] === $name && $user['password'] === $password) {
-                throw new UserAlreadyExistsException(); // DO: конкретное исключение
+            if ($user['user_name'] === $name && $user['password'] === $password) { // TODO: достаточно проверить по username
+                throw new UserAlreadyExistsException();
             }
         }
         $newId = count($users) > 0 ? max(array_column($users, 'user_id')) + 1 : 1;
         $users[] = [
             'user_id' => $newId,
             'user_name' => $name,
-            'balance' => 0, // DO: уберем дефолтный баланс 1000, поставим 0
-            'password' => $password  // DO: убрать историю из юзера, есть json файл history, с user_id, там понятно чья это история
+            'balance' => 0,
+            'password' => $password
         ];
 
         $this->storage->write($users);
@@ -48,6 +48,6 @@ class AuthService
                 );
             }
         }
-        throw new UserNotFoundException(); // DO: UserNotFoundException
+        throw new UserNotFoundException();
     }
 }

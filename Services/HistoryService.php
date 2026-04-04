@@ -12,7 +12,7 @@ class HistoryService
     {
         $this->storage = $storage;
     }
-    public function logGame(int $userId, string $type, float $bet, bool $isWin, float $payout): void // DO: добавить типизацию параметров
+    public function logGame(int $userId, string $type, float $bet, bool $isWin, float $payout): void
     {
         $history = $this->storage->read();
         $history[] = [
@@ -51,12 +51,15 @@ class HistoryService
         }
         echo "---------------------------------" . PHP_EOL;
     }
-    public function getHistory(User $user):array{
-        $history = $this->storage->read(); // DO: вынесем получение истории в HistoryService, getUserHistory(int $userId)
+    public function getHistory(User $user): array
+    {
+        $history = $this->storage->read();
         return array_filter($history, function ($g) use ($user) {
             return isset($g['user_id']) && $g['user_id'] === $user->getUserId();
         });
     }
+
+    // TODO: (!!! пока не делаем) усложнить статистику, добавить больше данных
     public function showUserStatistics(User $user): void
     {
         $myGames = $this->getHistory($user);

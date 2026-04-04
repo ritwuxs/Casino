@@ -21,6 +21,9 @@ use Exception\Exceptions\BetException;
 
 
 // TODO: вынести все из этого в CasinoController, приватные поля, основной метод, вспомогательные (в этом файле мы просто создаим объект контроллера, вызовем основной метод)
+// TODO: вынести из папки services, перенести в Controllers
+// TODO: logout
+// TODO: дописать контроллер
 class CasinoController
 {
     private JsonStorage $userStorage;
@@ -62,19 +65,18 @@ class CasinoController
                     }
                 } catch (\Exception $e) {
                     echo "Error: " . $e->getMessage() . PHP_EOL;
-                }continue;
+                }
+                continue;
             }
             $this->showMenu($this->currentUser);
             $choise = readline("Choose action: ");
-            switch($choise){
-             case '1':
-                $this->whatToPlay();
-                $typeGame = readline("Choose 1,2 or 3: ");
-                $bet = readline((float)"Your bet: ");
-                $this->game->validateBet($bet,$this->currentUser,$typeGame);
-               $this->game->chooseGame($bet,$typeGame);
-
-
+            switch ($choise) {
+                case '1':
+                    $this->whatToPlay();
+                    $typeGame = readline("Choose 1,2 or 3: ");
+                    $bet = readline((float)"Your bet: ");
+                    $this->game->validateBet($bet, $this->currentUser, $typeGame);
+                    $this->game->chooseGame($bet, $typeGame);
             }
         }
     }

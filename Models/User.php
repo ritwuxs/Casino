@@ -1,36 +1,43 @@
 <?php
 
 namespace Models;
+
 use Exceptions\InsufficientBalanceException;
 
 class User
 {
     public function __construct(
-        private int $id, // DO: тут и так понятно что это id юзера, можно просто id 
-        private string $name, // DO: тоже самое
+        private int $id,
+        private string $name,
         private float $balance,
         private string $password
     ) {}
-    public function getUserId(): int
+
+    public function getUserId(): int // TODO: getId()
     {
         return $this->id;
     }
+
     public function getName(): string
     {
         return $this->name;
     }
+
     public function getBalance(): float
     {
         return $this->balance;
     }
-    public function getPassword():string{
+
+    public function getPassword(): string
+    {
         return $this->password;
     }
-    public function setBalance(float $balance):void{
+
+    public function setBalance(float $balance): void
+    {
         if ($balance < 0) {
-            throw new InsufficientBalanceException();//DO::Окремий виняток
+            throw new InsufficientBalanceException();
+        }
+        $this->balance = $balance;
     }
-    $this->balance = $balance;
-    }
-   
 }

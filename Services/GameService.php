@@ -1,6 +1,7 @@
 <?php
 
 namespace Services;
+
 use Services\UserService;
 use Services\HistoryService;
 
@@ -19,7 +20,7 @@ use Exceptions\NegativeBetException;
 
 class GameService
 {
-    private JsonStorage $userStorage;
+    private JsonStorage $userStorage; // TODO: удаляем переменные которые не используются
     private JsonStorage $historyStorage;
     private UserService $userService;
     private HistoryService $historyService;
@@ -33,13 +34,13 @@ class GameService
     public function validateBet(float $bet, User $user, AbstractGame $game): void
     {
         if ($bet < 0) {
-            throw new NegativeBetException(); // DO: Добавить конкретные исключения
+            throw new NegativeBetException();
         }
         if ($bet > $user->getBalance()) {
-            throw new BetExceedsBalanceException(); // DO: Добавить конкретные исключения
+            throw new BetExceedsBalanceException();
         }
-        if ($bet < $game->getMinimalBet()) { // DO: у каждой игры своя минимальная ставка
-            throw new MinBetLimitException(); // DO: Добавить конкретные исключения
+        if ($bet < $game->getMinimalBet()) {
+            throw new MinBetLimitException();
         }
     }
     public function chooseGame(gameType $gameType, float $bet): AbstractGame
@@ -69,5 +70,4 @@ class GameService
         );
         return $result;
     }
-    
 }

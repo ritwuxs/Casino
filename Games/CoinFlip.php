@@ -8,7 +8,6 @@ use Games\AbstractGame;
 
 class CoinFlip extends AbstractGame
 {
-    // DO: добавить поле coinSide (вынести в enum)
     public function __construct(float $bet,  int $coficient = 2, float $minimalBet = 5)
     {
         parent::__construct($bet, $minimalBet, $coficient, gameType::COIN_FLIP);
@@ -24,8 +23,8 @@ class CoinFlip extends AbstractGame
         $is_won = ($winningSide === $userSite);
         $payout = $is_won ? ($this->bet * $this->coficient) : 0;
         $message = $is_won
-            ? "Fell out:". $winningSide->name . "You won $payout grn!"
-            : "Fell out:" . $winningSide->name ."You lost the bet.";
+            ? "Fell out:" . $winningSide->name . "You won $payout grn!"
+            : "Fell out:" . $winningSide->name . "You lost the bet.";
         return [
             'isWin'   => $is_won,
             'payout'  => (float)$payout,

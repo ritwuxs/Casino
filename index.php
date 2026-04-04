@@ -1,8 +1,8 @@
 <?php
 
 
-$userStorage = new JsonStorage('users.json'); // DO: переместить storages в сервисы, и общаться с ними там
-$historyStorage = new JsonStorage('history.json'); // DO: переместить storages в сервисы, и общаться с ними там
+$userStorage = new JsonStorage('users.json');
+$historyStorage = new JsonStorage('history.json');
 
 $userService = new UserService($userStorage);
 
@@ -20,7 +20,7 @@ while ($currentUser === null) {
             echo "Welcome to the system, " . $currentUser->getName() . "!" . PHP_EOL;
         } elseif ($action === '2') {
             $name = readline("Come up with a name: ");
-            $userService->registration($name,$password);
+            $userService->registration($name, $password);
             echo "You have successfully registered! Now log in." . PHP_EOL;
         } else {
             echo "Exit.." . PHP_EOL;
@@ -39,11 +39,11 @@ while (true) {
     echo "4. See balance" . PHP_EOL;
     echo "5. Statistics" . PHP_EOL;
     echo "6. Exit" . PHP_EOL;
-    // DO: добавить возможность выйти из аккаунта и зайти в другой (logout)
+
     $choise = readline("Choose action: ");
     switch ($choise) {
         case '1': // DO: вынести всю логику по игре в GameService
-            
+
             echo "What do you want to play?" . PHP_EOL;
             echo "1. Dice" . PHP_EOL;
             echo "2. Coin flip" . PHP_EOL;
@@ -52,7 +52,7 @@ while (true) {
             $choise2 = readline("Choose game: ");
             switch ($choise2) {
                 case '1':
-                    $num = (int)readline("What number do we bet on? (1-6)? "); 
+                    $num = (int)readline("What number do we bet on? (1-6)? ");
                     //DO: ввод это часть игры (вынести в play)
                     $game = new Dice($bet, $num);
                     break;
@@ -68,11 +68,11 @@ while (true) {
                     break;
             }
             if ($game) {
-                $userService->withdraw($currentUser,$bet);
+                $userService->withdraw($currentUser, $bet);
                 $result = $game->play();
                 echo $result['message'] . PHP_EOL;
                 if ($result['isWin']) {
-                    $userService->deposit($currentUser,$result['payout']);
+                    $userService->deposit($currentUser, $result['payout']);
                 }
                 $userService->updateUser($currentUser);
 
@@ -90,7 +90,7 @@ while (true) {
         case '2':
             echo "Enter amount: ";
             $amount = readLine("");
-            $userService->deposit($currentUser,$amount);
+            $userService->deposit($currentUser, $amount);
             $userService->updateUser($currentUser);
             break;
 
@@ -104,7 +104,7 @@ while (true) {
             break;
 
         // DO: вынести в getUserStatisics(): array 
-        // TODO: (!!! пока не делаем) усложнить статистику, добавить больше данных
+
         case '5':
             $history = $historyStorage->read(); // DO: вынесем получение истории в HistoryService, getUserHistory(int $userId)
             $myGames = array_filter($history, function ($g) use ($currentUser) {

@@ -19,14 +19,13 @@ class UserService
         $this->storage = $storage;
     }
 
-    
     public function updateUser(User $user): void
     {
         $users = $this->storage->read();
         foreach ($users as &$userData) {
             if ($userData['user_id'] === $user->getUserId()) {
                 $userData = [
-                    'user_id'       => $user->getUserId(),
+                    'user_id'       => $user->getUserId(), // TODO: убрать лишний space перед =>
                     'user_name' => $user->getName(),
                     'balance'  => $user->getBalance()
                 ];
@@ -36,10 +35,11 @@ class UserService
         unset($userData);
         $this->storage->write($users);
     }
-    public function deposit(User $user, float $amount): float // DO: выносим в сервис (логика это задача сервисов)
+
+    public function deposit(User $user, float $amount): float
     {
         if ($amount <= 0) {
-            throw new NegativeAmountException(); // DO: сделать конкретное исключение NegativeAmountException
+            throw new NegativeAmountException();
         }
         $newBalance = $user->getBalance() + $amount;
         $user->setBalance($newBalance);
@@ -47,13 +47,14 @@ class UserService
 
         return $newBalance;
     }
-    public function withdraw(User $user, float $amount): float // DO: выносим в сервис
+
+    public function withdraw(User $user, float $amount): float
     {
         if ($amount <= 0) {
-            throw new NegativeAmountException(); // DO: сделать конкретное исключение NegativeAmountException
+            throw new NegativeAmountException();
         }
         if ($amount > $user->getBalance()) {
-            throw new InsufficientBalanceException(); // DO: сделать конкретное исключение 
+            throw new InsufficientBalanceException();
         }
         $newBalance = $user->getBalance() - $amount;
         $user->setBalance($newBalance);
@@ -63,6 +64,6 @@ class UserService
     public function makeBet(): float
     {
         $input = readline("Enter your bet: ");
-        return $bet = (float)$input;
+        return $bet = (float)$input; // TODO: return (float) $input
     }
 }
