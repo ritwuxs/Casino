@@ -31,7 +31,7 @@ while ($currentUser === null) {
     }
 }
 while (true) {
-    echo "User: " . $currentUser->getName() . " | Bakance: " . $currentUser->getBalance() . " grn" . PHP_EOL;
+    echo "User: " . $currentUser->getName() . " | Balance: " . $currentUser->getBalance() . " grn" . PHP_EOL;
     echo "------------------------" . PHP_EOL;
     echo "1. Play" . PHP_EOL;
     echo "2. To Deposit" . PHP_EOL;
@@ -43,14 +43,7 @@ while (true) {
     $choise = readline("Choose action: ");
     switch ($choise) {
         case '1': // DO: вынести всю логику по игре в GameService
-            try {
-                $input = readline("Enter your bet: ");
-                $bet = (float)$input;
-                
-            } catch (BetException $e) {
-                echo "Error: " . $e->getMessage() . PHP_EOL;
-                continue 2;
-            }
+            
             echo "What do you want to play?" . PHP_EOL;
             echo "1. Dice" . PHP_EOL;
             echo "2. Coin flip" . PHP_EOL;
@@ -60,7 +53,7 @@ while (true) {
             switch ($choise2) {
                 case '1':
                     $num = (int)readline("What number do we bet on? (1-6)? "); 
-                    //TODO: ввод это часть игры (вынести в play)
+                    //DO: ввод это часть игры (вынести в play)
                     $game = new Dice($bet, $num);
                     break;
 
