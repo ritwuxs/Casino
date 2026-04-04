@@ -2,26 +2,29 @@
 
 namespace Games;
 
+use enums\gameType;
 use Games\AbstractGame;
 
 class Dice extends AbstractGame
 {
-    private int $userNumber;
-    public function __construct(float $bet, int $userNumber)
+    public function __construct(float $bet, int $coficient = 6, float $minimalBet = 10)
     {
-        parent::__construct($bet);
-        $this->userNumber = $userNumber;
+        parent::__construct($bet, $minimalBet, $coficient, gameType::DICE);
+        
     }
     public function play(): array
     {
+        $num = (int)readline("What number do we bet on? (1-6)? ");
+        //DO: ввод это часть игры (вынести в play)
+
         $roll = random_int(1, 6);
-        $isWin = ($roll === $this->userNumber);
-        $payout = $isWin ? ($this->bet * 6) : 0;
-        $message = $isWin
+        $is_won = ($roll === $num);
+        $payout = $is_won ? ($this->bet * $this->coficient) : 0;
+        $message = $is_won
             ? "Congratulations! It's out $roll. You won $payout coins!"
             : "It's a pity, but it fell out $roll.You lost the bet.";
         return [
-            'isWin'   => $isWin,
+            'isWin'   => $is_won,
             'payout'  => (float)$payout,
             'message' => $message,
             'roll'    => $roll

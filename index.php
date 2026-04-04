@@ -1,31 +1,8 @@
 <?php
 
 
-require_once 'Models/User.php';
-require_once 'Helper/JsonStorage.php';
-require_once 'Services/UserService.php';
-require_once 'Services/HistoryService.php';
-require_once 'Exceptions/UserException.php';
-require_once 'Exceptions/BetException.php';
-require_once 'Games/AbstractGame.php';
-require_once 'Games/Dice.php';
-require_once 'Games/CoinFlip.php';
-require_once 'Games/Slots.php';
-
-use Exceptions\BetException;
-use Helper\JsonStorage;
-use Services\UserService;
-use Services\HistoryService;
-use Exceptions\UserException;
-use Games\AbstractGame;
-use Games\Dice;
-use Games\CoinFlip;
-use Games\Slots;
-
-// TODO: вынести все из этого в CasinoController, приватные поля, основной метод, вспомогательные (в этом файле мы просто создаим объект контроллера, вызовем основной метод)
-
-$userStorage = new JsonStorage('users.json'); // TODO: переместить storages в сервисы, и общаться с ними там
-$historyStorage = new JsonStorage('history.json'); // TODO: переместить storages в сервисы, и общаться с ними там
+$userStorage = new JsonStorage('users.json'); // DO: переместить storages в сервисы, и общаться с ними там
+$historyStorage = new JsonStorage('history.json'); // DO: переместить storages в сервисы, и общаться с ними там
 
 $userService = new UserService($userStorage);
 
@@ -43,13 +20,13 @@ while ($currentUser === null) {
             echo "Welcome to the system, " . $currentUser->getName() . "!" . PHP_EOL;
         } elseif ($action === '2') {
             $name = readline("Come up with a name: ");
-            $userService->registration($name);
+            $userService->registration($name,$password);
             echo "You have successfully registered! Now log in." . PHP_EOL;
         } else {
             echo "Exit.." . PHP_EOL;
             break;
         }
-    } catch (UserException $e) {
+    } catch (Exception $e) {
         echo "Error: " . $e->getMessage() . PHP_EOL;
     }
 }
@@ -62,22 +39,14 @@ while (true) {
     echo "4. See balance" . PHP_EOL;
     echo "5. Statistics" . PHP_EOL;
     echo "6. Exit" . PHP_EOL;
-    // TODO: добавить возможность выйти из аккаунта и зайти в другой (logout)
+    // DO: добавить возможность выйти из аккаунта и зайти в другой (logout)
     $choise = readline("Choose action: ");
     switch ($choise) {
-        case '1': // TODO: вынести всю логику по игре в GameService
+        case '1': // DO: вынести всю логику по игре в GameService
             try {
                 $input = readline("Enter your bet: ");
                 $bet = (float)$input;
-                if ($bet < 0) {
-                    throw new BetException("Bet can not be negative"); // TODO: Добавить конкретные исключения
-                }
-                if ($bet > $currentUser->getBalance()) {
-                    throw new BetException("Bet can not be bigger than balance"); // TODO: Добавить конкретные исключения
-                }
-                if ($bet < 10) { // TODO: у каждой игры своя минимальная ставка
-                    throw new BetException("Minimal bet is 10"); // TODO: Добавить конкретные исключения
-                }
+                
             } catch (BetException $e) {
                 echo "Error: " . $e->getMessage() . PHP_EOL;
                 continue 2;
@@ -90,7 +59,8 @@ while (true) {
             $choise2 = readline("Choose game: ");
             switch ($choise2) {
                 case '1':
-                    $num = (int)readline("What number do we bet on? (1-6)? "); // TODO: ввод это часть игры (вынести в play)
+                    $num = (int)readline("What number do we bet on? (1-6)? "); 
+                    //TODO: ввод это часть игры (вынести в play)
                     $game = new Dice($bet, $num);
                     break;
 
@@ -105,11 +75,11 @@ while (true) {
                     break;
             }
             if ($game) {
-                $currentUser->withdraw($bet);
+                $userService->withdraw($currentUser,$bet);
                 $result = $game->play();
                 echo $result['message'] . PHP_EOL;
                 if ($result['isWin']) {
-                    $currentUser->deposit($result['payout']);
+                    $userService->deposit($currentUser,$result['payout']);
                 }
                 $userService->updateUser($currentUser);
 
@@ -127,7 +97,7 @@ while (true) {
         case '2':
             echo "Enter amount: ";
             $amount = readLine("");
-            $currentUser->deposit($amount);
+            $userService->deposit($currentUser,$amount);
             $userService->updateUser($currentUser);
             break;
 
@@ -140,10 +110,10 @@ while (true) {
             echo "Your balance: " . $currentUser->getBalance() . " grn" . PHP_EOL;
             break;
 
-        // TODO: вынести в getUserStatisics(): array 
+        // DO: вынести в getUserStatisics(): array 
         // TODO: (!!! пока не делаем) усложнить статистику, добавить больше данных
         case '5':
-            $history = $historyStorage->read(); // TODO: вынесем получение истории в HistoryService, getUserHistory(int $userId)
+            $history = $historyStorage->read(); // DO: вынесем получение истории в HistoryService, getUserHistory(int $userId)
             $myGames = array_filter($history, function ($g) use ($currentUser) {
                 return isset($g['userId']) && $g['userId'] === $currentUser->getUserId();
             });
@@ -160,6 +130,7 @@ while (true) {
             } else {
                 echo "There have been no games yet, the statistics are empty." . PHP_EOL;
             }
+            break;
 
         case '6':
             echo "Exit";

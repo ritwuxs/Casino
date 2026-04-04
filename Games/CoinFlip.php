@@ -2,28 +2,32 @@
 
 namespace Games;
 
+use enums\coinSide;
+use enums\gameType;
 use Games\AbstractGame;
 
 class CoinFlip extends AbstractGame
 {
-    private int $userChoice;
-    // TODO: добавить поле coinSide (вынести в enum)
-    public function __construct(float $bet, int $userChoice) 
+    // DO: добавить поле coinSide (вынести в enum)
+    public function __construct(float $bet,  int $coficient = 2, float $minimalBet = 5)
     {
-        parent::__construct($bet);
-        $this->userChoice = $userChoice;
+        parent::__construct($bet, $minimalBet, $coficient, gameType::COIN_FLIP);
     }
 
     public function play(): array
     {
+        echo "0 - Orel , 1 -  Reshka" . PHP_EOL;
+        $input = (int)readline("You choice: ");
+        $userSite = coinSide::from($input);
         $roll = random_int(0, 1);
-        $isWin = ($roll === $this->userChoice);
-        $payout = $isWin ? ($this->bet * 2) : 0;
-        $message = $isWin
-            ? "The Orel fell out.  $roll. You won $payout coins!"
-            : "It's a pity, but Reshka fell out $roll.You lost the bet.";
+        $winningSide = coinSide::from($roll);
+        $is_won = ($winningSide === $userSite);
+        $payout = $is_won ? ($this->bet * $this->coficient) : 0;
+        $message = $is_won
+            ? "Fell out:". $winningSide->name . "You won $payout grn!"
+            : "Fell out:" . $winningSide->name ."You lost the bet.";
         return [
-            'isWin'   => $isWin,
+            'isWin'   => $is_won,
             'payout'  => (float)$payout,
             'message' => $message,
             'roll'    => $roll

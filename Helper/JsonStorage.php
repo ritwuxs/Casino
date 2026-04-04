@@ -2,6 +2,8 @@
 
 namespace Helper;
 
+use Exceptions\FileDoNotExists;
+
 class JsonStorage
 {
     private string $filePath;
@@ -12,7 +14,7 @@ class JsonStorage
     public function read(): array
     {
         if (!file_exists($this->filePath)) {
-            return []; // TODO: throw Exception
+            throw new FileDoNotExists(); // DO: throw Exception
         }
         $content = file_get_contents($this->filePath);
         if (empty(trim($content))) {
