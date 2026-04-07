@@ -23,11 +23,11 @@ class UserService
     {
         $users = $this->storage->read();
         foreach ($users as &$userData) {
-            if ($userData['user_id'] === $user->getUserId()) {
+            if ($userData['user_id'] === $user->getId()) {
                 $userData = [
-                    'user_id'       => $user->getUserId(), // TODO: убрать лишний space перед =>
+                    'user_id' => $user->getId(), //DO:Пробел
                     'user_name' => $user->getName(),
-                    'balance'  => $user->getBalance()
+                    'balance' => $user->getBalance()
                 ];
                 break;
             }
@@ -64,6 +64,6 @@ class UserService
     public function makeBet(): float
     {
         $input = readline("Enter your bet: ");
-        return $bet = (float)$input; // TODO: return (float) $input
+        return (float)$input; // DO: return (float) $input
     }
 }

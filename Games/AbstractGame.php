@@ -3,15 +3,15 @@
 namespace Games;
 
 use enums\coinSide;
-use enums\gameType;
+use enums\GameType;
 
 abstract class AbstractGame
 {
     public function __construct(
         protected float $bet,
         protected float $minimalBet,
-        protected int $coficient, // TODO: coefficient
-        protected gameType $type
+        protected int $coefficient, // DO: coefficient
+        protected GameType $type
     ) {}
 
     public function getMinimalBet(): float
@@ -19,7 +19,7 @@ abstract class AbstractGame
         return $this->minimalBet;
     }
 
-    public function getType(): gameType
+    public function getType(): GameType
     {
         return $this->type;
     }

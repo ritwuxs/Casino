@@ -7,7 +7,7 @@ use Services\HistoryService;
 
 
 use enums\coinSide;
-use enums\gameType;
+use enums\GameType;
 use Exceptions\BetExceedsBalanceException;
 use Exceptions\MinBetLimitException;
 use Games\AbstractGame;
@@ -20,14 +20,12 @@ use Exceptions\NegativeBetException;
 
 class GameService
 {
-    private JsonStorage $userStorage; // TODO: удаляем переменные которые не используются
-    private JsonStorage $historyStorage;
+    // DO: удаляем переменные которые не используются
+   
     private UserService $userService;
     private HistoryService $historyService;
     public function __construct($userService, $historyService)
     {
-        $this->userStorage = new JsonStorage('storage/user.json');
-        $this->historyStorage = new JsonStorage('storage/history.json');
         $this->userService = $userService;
         $this->historyService = $historyService;
     }
@@ -43,17 +41,17 @@ class GameService
             throw new MinBetLimitException();
         }
     }
-    public function chooseGame(gameType $gameType, float $bet): AbstractGame
+    public function chooseGame(GameType $gameType, float $bet): AbstractGame
     {
         return match ($gameType) {
-            gameType::DICE => new Dice($bet),
-            gameType::COIN_FLIP => new CoinFlip($bet),
-            gameType::SLOTS => new Slots($bet)
+            GameType::DICE => new Dice($bet),
+            GameType::COIN_FLIP => new CoinFlip($bet),
+            GameType::SLOTS => new Slots($bet)
         };
     }
-    public function runGame(User $user, gameType $gameType, float $bet, mixed $additionalData): array
+    public function runGame(User $user, gameType $gameType, float $bet): array
     {
-        $game = $this->chooseGame($gameType, $bet, $additionalData);
+        $game = $this->chooseGame($gameType, $bet);
         $this->validateBet($bet, $user, $game);
         $this->userService->withdraw($user, $bet);
         $result = $game->play();
@@ -62,7 +60,7 @@ class GameService
         }
         $this->userService->updateUser($user);
         $this->historyService->logGame(
-            $user->getUserId(),
+            $user->getId(),
             $gameType->name,
             $bet,
             $result['is_won'],

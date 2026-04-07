@@ -2,14 +2,14 @@
 
 namespace Games;
 
-use enums\gameType;
+use Enums\GameType;
 use Games\AbstractGame;
 
 class Slots extends AbstractGame
 {
     public function __construct(float $bet, int $coficient = 10, float $minimalBet = 15)
     {
-        parent::__construct($bet, $minimalBet, $coficient, gameType::SLOTS);
+        parent::__construct($bet, $minimalBet, $coficient, GameType::SLOTS);
     }
     // TODO: (!!! Пока что делать не надо) - На будущее будем усложнять логику слотов
     public function play(): array
@@ -20,11 +20,11 @@ class Slots extends AbstractGame
         $combination = [$slot1, $slot2, $slot3];
         if ($slot1 === $slot2 && $slot1 === $slot3) {
             $isWin = true;
-            $payout = $this->bet * $this->coficient;
+            $payout = $this->bet * $this->coefficient;
             $message = "JACKPOT! All numbers are the same!";
         } elseif ($slot1 === $slot2 || $slot1 === $slot3 || $slot2 === $slot3) {
             $isWin = true;
-            $payout = $this->bet * ($this->coficient / 2);
+            $payout = $this->bet * ($this->coefficient / 2);
             $message = "Winning couple!";
         } else {
             $isWin = false;

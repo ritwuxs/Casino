@@ -17,14 +17,17 @@ class AuthService
         $this->storage = $storage;
     }
 
-    public function registration(string $name, string $password): void // TODO: подтверждение пароля
+    public function registration(string $name, string $password): void // DO: подтверждение пароля
     {
         $users = $this->storage->read();
+         $confirmPassword = readline("Confirm your password: ");
+
         foreach ($users as $user) {
-            if ($user['user_name'] === $name && $user['password'] === $password) { // TODO: достаточно проверить по username
+            if ($user['user_name'] === $name) { //DO: достаточно проверить по username
                 throw new UserAlreadyExistsException();
             }
         }
+        if($password == $confirmPassword){
         $newId = count($users) > 0 ? max(array_column($users, 'user_id')) + 1 : 1;
         $users[] = [
             'user_id' => $newId,
@@ -32,9 +35,10 @@ class AuthService
             'balance' => 0,
             'password' => $password
         ];
-
         $this->storage->write($users);
+        }
     }
+
     public function login(string $name, string $password): User
     {
         $users = $this->storage->read();
