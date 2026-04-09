@@ -12,6 +12,7 @@ class HistoryService
     {
         $this->storage = $storage;
     }
+    
     public function logGame(int $userId, string $type, float $bet, bool $isWin, float $payout): void
     {
         $history = $this->storage->read();
@@ -51,6 +52,7 @@ class HistoryService
         }
         echo "---------------------------------" . PHP_EOL;
     }
+
     public function getHistory(User $user): array
     {
         $history = $this->storage->read();
@@ -59,7 +61,7 @@ class HistoryService
         });
     }
 
-    // TODO: усложнить статистику, добавить больше данных
+    // DO: усложнить статистику, добавить больше данных
     // - сумма всех ставок
     // - средняя ставка
     // - в какие игры сколько играл

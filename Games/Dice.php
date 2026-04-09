@@ -11,6 +11,7 @@ class Dice extends AbstractGame
     {
         parent::__construct($bet, $minimalBet, $coficient, GameType::DICE);
     }
+    
     public function play(): array
     {
         $num = (int)readline("What number do we bet on? (1-6)? ");

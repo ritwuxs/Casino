@@ -11,6 +11,7 @@ class Black_Jack extends AbstractGame
     {
         parent::__construct($bet, $minimalBet, $coficient, GameType::COIN_FLIP);
     }
+    
     public function play(): array
     {
         $playerPoints = random_int(2, 11) + random_int(2, 11);
@@ -45,15 +46,14 @@ class Black_Jack extends AbstractGame
             $is_won = true; // Формально виграш, щоб сервіс зробив депозит
             $pay_out = $this->bet; // Повертаємо тільки те, що поставили
             $message = "Push! It's a tie ($playerPoints points). Bet returned.";
-        }
-        else{
+        } else {
             $message = "Lost! Your $playerPoints vs Dealer $dealerPoints.";
         }
         return [
-         'is_won' => $is_won,
-         'pay_out' => $pay_out,
-         'message'=>$message,
-         'roll' => $playerPoints
+            'is_won' => $is_won,
+            'pay_out' => $pay_out,
+            'message' => $message,
+            'roll' => $playerPoints
 
         ];
     }
