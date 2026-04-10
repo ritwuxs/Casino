@@ -34,24 +34,24 @@ class Black_Jack extends AbstractGame
             $dealerPoints += random_int(2, 11);
         }
         $is_won = false;
-        $pay_out = 0;
+        $payout = 0;
         $message = "";
         if ($playerPoints > 21) {
             $message = "Bust! You have $playerPoints points. Dealer wins.";
         } elseif ($dealerPoints > 21 || $playerPoints > $dealerPoints) {
             $is_won = true;
-            $pay_out = $this->bet * $this->coefficient;
+            $payout = $this->bet * $this->coefficient;
             $message = "Win! Your $playerPoints vs Dealer $dealerPoints.";
         } elseif ($playerPoints === $dealerPoints) {
             $is_won = true; // Формально виграш, щоб сервіс зробив депозит
-            $pay_out = $this->bet; // Повертаємо тільки те, що поставили
+            $payout = $this->bet; // Повертаємо тільки те, що поставили
             $message = "Push! It's a tie ($playerPoints points). Bet returned.";
         } else {
             $message = "Lost! Your $playerPoints vs Dealer $dealerPoints.";
         }
         return [
             'is_won' => $is_won,
-            'pay_out' => $pay_out,
+            'payout' => $payout,
             'message' => $message,
             'roll' => $playerPoints
 

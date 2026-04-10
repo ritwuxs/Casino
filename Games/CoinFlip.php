@@ -26,7 +26,7 @@ class CoinFlip extends AbstractGame
             ? "Fell out:" . $winningSide->name . "You won $payout grn!"
             : "Fell out:" . $winningSide->name . "You lost the bet.";
         return [
-            'isWin'   => $is_won,
+            'is_won'   => $is_won,
             'payout'  => (float)$payout,
             'message' => $message,
             'roll'    => $roll

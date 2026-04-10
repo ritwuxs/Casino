@@ -26,20 +26,21 @@ class GameService
     private HistoryService $historyService;
     private ReadConfig $config;
 
-    public function __construct($userService, $historyService, $config)
+    public function __construct(UserService $userService, HistoryService $historyService,ReadConfig $config)
     {
         $this->userService = $userService;
         $this->historyService = $historyService;
         $this->config = $config;
     }
 
-    public function shouldCheat():bool{
-     $isEnable = $this->config->get('CHEAT_MODE')===true;
-     $persent = $this->config->get('CHEAT_PERCENT');
-     if(!$isEnable){
-        return false;
-     }
-     return random_int(1,100)<=$persent;
+    public function shouldCheat(): bool
+    {
+        $isEnable = $this->config->get('CHEAT_MODE') == true;
+        $persent = $this->config->get('CHEAT_PERCENT');
+        if (!$isEnable) {
+            return false;
+        }
+        return random_int(1, 100) <= $persent;
     }
 
     public function validateBet(float $bet, User $user, AbstractGame $game): void
@@ -71,6 +72,11 @@ class GameService
         $this->validateBet($bet, $user, $game);
         $this->userService->withdraw($user, $bet);
         $result = $game->play();
+        if ($result['is_won'] && $this->shouldCheat()) {
+            $result['is_won'] = false;
+            $result['payout'] = 0;
+            $result['message'] = "Bad luck! Try again.";
+        }
         if ($result['is_won']) {
             $this->userService->deposit($user, $result['payout']);
         }

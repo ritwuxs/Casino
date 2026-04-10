@@ -1,7 +1,8 @@
 <?php
 
-namespace Services;
+namespace Controllers;
 
+use enums\GameType;
 use Models\User;
 use Helper\JsonStorage;
 use Services\UserService;
@@ -18,7 +19,8 @@ use Exception\Exceptions\NegativeAmountException;
 use Exception\Exceptions\UserAlreadyExistsException;
 use Exception\Exceptions\UserNotFoundException;
 use Exception\Exceptions\BetException;
-
+use Exception\Exceptions\WrongType;
+use Exceptions\WrongType as ExceptionsWrongType;
 
 // TODO: вынести все из этого в CasinoController, приватные поля, основной метод, вспомогательные (в этом файле мы просто создаим объект контроллера, вызовем основной метод)
 // TODO: вынести из папки services, перенести в Controllers
@@ -31,15 +33,15 @@ class CasinoController
     private ?User $currentUser = null;
     public function __construct(
         private AuthService $authService,
-        private UserService $user,
         private GameService $game,
         private HistoryService $history,
-        private AbstractGame $typeGame
+        private UserService $userService,
+        private \Helper\ReadConfig $config
     ) {
         $this->userStorage = new JsonStorage('storage/user.json');
         $this->historyStorage = new JsonStorage('storage/history.json');
     }
-    public function run(AuthService $authService): void
+    public function run(): void
     {
         $this->currentUser = null;
         while (true) {
@@ -51,13 +53,13 @@ class CasinoController
                         $name = readline("Enter login: ");
                         $password = readline("Enter password: ");
 
-                        $currentUser = $authService->login($name, $password);
-                        echo "Welcome to the system, " . $currentUser->getName() . "!" . PHP_EOL;
+                        $this->currentUser = $this->authService->login($name, $password);
+                        echo "Welcome to the system, " . $this->currentUser->getName() . "!" . PHP_EOL;
                     } elseif ($action === '2') {
                         $name = readline("Come up with a name: ");
                         $password = readline("Come up with a password: ");
 
-                        $authService->registration($name, $password);
+                        $this->authService->registration($name, $password);
                         echo "You have successfully registered! Now log in." . PHP_EOL;
                     } else {
                         echo "Exit.." . PHP_EOL;
@@ -73,13 +75,66 @@ class CasinoController
             switch ($choise) {
                 case '1':
                     $this->whatToPlay();
-                    $typeGame = readline("Choose 1,2 or 3: ");
-                    $bet = readline((float)"Your bet: ");
-                    $this->game->validateBet($bet, $this->currentUser, $typeGame);
-                    $this->game->chooseGame($bet, $typeGame);
+                    $typeGame = readline("Choose 1,2,3 or 4: ");
+                    $selectedEnum = match ($typeGame) {
+                        '1' => \Enums\gameType::DICE,
+                        '2' => \Enums\gameType::COIN_FLIP,
+                        '3' => \Enums\gameType::SLOTS,
+                        '4' => \Enums\gameType::BLACK_JACK,
+                        default => null
+                    };
+                    if ($selectedEnum === null) {
+                        throw new ExceptionsWrongType();
+                    }
+                    $bet = readline("Your bet: ");
+                    try {
+                        $result = $this->game->runGame($this->currentUser, $selectedEnum, (float)$bet);
+                        echo $result['message'] . PHP_EOL;
+                        break;
+                    } catch (\Exception $e) {
+                        echo "Error" . $e->getMessage() . PHP_EOL;
+                    }
+                    readline("Press Enter to continue...");
+                    break;
+                case '2':
+                    $this->handleDeposit();
+                    break;
+
+                case '3':
+                    $this->history->showUserHistory($this->currentUser->getId());
+                    break;
+
+                case '4':
+                    echo " Your current balance: " . $this->currentUser->getBalance() . " grn" . PHP_EOL;
+                    break;
+
+                case '5':
+                    $this->history->showUserStatistics($this->currentUser);
+                    break;
+
+                case '6':
+                    $this->handleLogout();
+                    break;
+
+                case '7':
+                    echo "Exiting the casino. Good luck!" . PHP_EOL;
+                    exit;
             }
         }
     }
+    public function handleDeposit(): void
+    {
+        echo "Enter amount: ";
+        $amount = readLine("");
+        $this->userService->deposit($this->currentUser, (float)$amount);
+        $this->userService->updateUser($this->currentUser);
+    }
+    private function handleLogout(): void
+    {
+        $this->currentUser = null;
+        echo "Logged out. See you soon!" . PHP_EOL;
+    }
+
     public function showMenu(User $user): void
     {
         echo "User: " . $user->getName() . " | Balance: " . $user->getBalance() . " grn" . PHP_EOL;
@@ -103,5 +158,6 @@ class CasinoController
         echo "1. Dice" . PHP_EOL;
         echo "2. Coin flip" . PHP_EOL;
         echo "3. Slots" . PHP_EOL;
+        echo "4. Black_Jack" . PHP_EOL;
     }
 }

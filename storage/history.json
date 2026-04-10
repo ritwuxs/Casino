@@ -1,26 +1,18 @@
 [
     {
-        "userId": 1,
-        "gameType": "3",
-        "bet": 10,
-        "isWin": true,
-        "payout": 50,
-        "date": "2026-03-28 09:44:03"
+        "user_id": 1,
+        "game_type": "BLACK_JACK",
+        "bet": 100,
+        "is_won": false,
+        "pay_out": 0,
+        "date": "2026-04-10 20:41:21"
     },
     {
-        "userId": 1,
-        "gameType": "3",
+        "user_id": 1,
+        "game_type": "BLACK_JACK",
         "bet": 100,
-        "isWin": false,
-        "payout": 0,
-        "date": "2026-03-28 09:44:34"
-    },
-    {
-        "userId": 1,
-        "gameType": "2",
-        "bet": 100,
-        "isWin": false,
-        "payout": 0,
-        "date": "2026-03-28 09:44:43"
+        "is_won": false,
+        "pay_out": 0,
+        "date": "2026-04-10 20:47:41"
     }
 ]

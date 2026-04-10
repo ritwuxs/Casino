@@ -33,7 +33,7 @@ class Slots extends AbstractGame
         }
         $visual = "[ " . implode(" | ", $combination) . " ]";
         return [
-            'isWin'   => $isWin,
+            'is_won'   => $isWin,
             'payout'  => (float)$payout,
             'message' => "$visual - $message"
         ];

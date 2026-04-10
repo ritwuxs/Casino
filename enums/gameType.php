@@ -1,6 +1,6 @@
 <?php
 
-namespace enums;
+namespace Enums;
 
 // DO: rename to GameType
 enum GameType: int

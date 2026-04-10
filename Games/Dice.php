@@ -24,7 +24,7 @@ class Dice extends AbstractGame
             : "It's a pity, but it fell out $roll.You lost the bet.";
 
         return [
-            'isWin'   => $is_won,
+            'is_won'   => $is_won,
             'payout'  => (float)$payout,
             'message' => $message,
             'roll'    => $roll

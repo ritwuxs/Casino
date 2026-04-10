@@ -1,6 +1,6 @@
 <?php
 
-namespace enums;
+namespace Enums;
 
 // DO: rename to CoinSide
 // DO: папку enums rename to Enums

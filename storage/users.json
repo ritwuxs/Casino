@@ -1,8 +1,7 @@
 [
     {
         "id": 1,
-        "username": "ritwuxs",
-        "balance": 540,
-        "history": []
+        "name": "ritwuxs",
+        "balance": 900
     }
 ]

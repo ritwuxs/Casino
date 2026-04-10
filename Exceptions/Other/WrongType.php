@@ -1,14 +1,14 @@
 <?php
 
-namespace Exceptions\FilesExceptions;
+namespace Exceptions;
 
 use Exception;
 use Throwable;
 
-class FileDoNotExists extends Exception
+class WrongType extends Exception
 {
     public function __construct(
-        string $message = "File do not exists",
+        string $message = "You choised wrong type",
         int $code = 0,
         Throwable|null $previous = null
     ) {

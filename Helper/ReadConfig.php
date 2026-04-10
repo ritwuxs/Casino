@@ -2,7 +2,7 @@
 
 namespace Helper;
 
-use Exceptions\FileDoNotExists;
+use Exceptions\FilesExceptions\FileDoNotExists;
 
 class ReadConfig
 {
@@ -12,7 +12,7 @@ class ReadConfig
         if (!file_exists('.env')) {
             throw new FileDoNotExists();
         }
-        $lines = file('.env', FILE_IGNORE_NEW_LINES, FILE_SKIP_EMPTY_LINES);
+        $lines = file('.env', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         foreach ($lines as $line) {
             $part = explode('=', $line, 2);
             if (count($part) === 2) {
@@ -31,7 +31,7 @@ class ReadConfig
         if ($val === false) {
             return false;
         }
-        if(is_numeric($val)){
+        if (is_numeric($val)) {
             return (float)$val;
         }
         return $val;

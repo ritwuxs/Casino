@@ -23,10 +23,10 @@ class UserService
     {
         $users = $this->storage->read();
         foreach ($users as &$userData) {
-            if ($userData['user_id'] === $user->getId()) {
+            if ($userData['id'] === $user->getId()) {
                 $userData = [
-                    'user_id' => $user->getId(), //DO:Пробел
-                    'user_name' => $user->getName(),
+                    'id' => $user->getId(), //DO:Пробел
+                    'name' => $user->getName(),
                     'balance' => $user->getBalance()
                 ];
                 break;
