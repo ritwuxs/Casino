@@ -4,7 +4,7 @@ namespace Enums;
 
 // DO: rename to CoinSide
 // DO: папку enums rename to Enums
-enum CoinSide: string
+enum CoinSide: int
 {
     // DO: использовать -> case OREL = 1;
     case OREL = 0;

@@ -12,12 +12,12 @@ class HistoryService
     {
         $this->storage = $storage;
     }
-    
+
     public function logGame(int $userId, string $type, float $bet, bool $isWin, float $payout): void
     {
         $history = $this->storage->read();
         $history[] = [
-            'user_id'   => $userId,
+            'id'   => $userId,
             'game_type' => $type,
             'bet'      => $bet,
             'is_won'    => $isWin,
@@ -36,7 +36,7 @@ class HistoryService
         echo "---------------------------------" . PHP_EOL;
         $found = false;
         foreach ($allHistory as $record) {
-            if (isset($record['user_id']) && $record['user_id'] === $userId) {
+            if (isset($record['id']) && $record['id'] === $userId) {
                 $status = ($record['is_won'] ?? false) ? "Win" : "Loss";
                 $game   = $record['game_type'] ?? "Unknown";
                 $payout = $record['pay_out'] ?? 0;
@@ -57,7 +57,7 @@ class HistoryService
     {
         $history = $this->storage->read();
         return array_filter($history, function ($g) use ($user) {
-            return isset($g['user_id']) && $g['user_id'] === $user->getId();
+            return isset($g['id']) && $g['id'] === $user->getId();
         });
     }
 
@@ -75,7 +75,7 @@ class HistoryService
         $gameCount = [];
         $gameProfit = [];
         foreach ($myGames as $game) {
-            $type = $game['gameType'];
+            $type = $game['game_type'];
             $bet = (float)$game['bet'];
             $payout = (float)$game['pay_out'];
             $sumOfBets += $bet;
@@ -91,14 +91,14 @@ class HistoryService
         asort($gameProfit);
         $mostProfitable = array_key_first($gameProfit);
         $leastProfitable = array_key_last($gameProfit);
-        $averegeBet = $sumOfBets / $total;
-
+        
 
         if ($total > 0) {
+            $averegeBet = $sumOfBets / $total;
             $wins = count(array_filter($myGames, function ($g) {
                 return isset($g['is_won']) && $g['is_won'] === true;
             }));
-            $winrate = round(($wins / $total) * 100, 2);
+            $winrate =  round(($wins / $total) * 100, 2);
             echo "Your Winrate: $winrate % (games played: $total)" . PHP_EOL;
             echo "Your total sum of money: $sumOfBets grn:" . PHP_EOL;
             echo "Your averege bet is: round($averegeBet) grn" . PHP_EOL;

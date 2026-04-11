@@ -27,7 +27,9 @@ class UserService
                 $userData = [
                     'id' => $user->getId(), //DO:Пробел
                     'name' => $user->getName(),
-                    'balance' => $user->getBalance()
+                    'balance' => $user->getBalance(),
+                    'password' => $user->getPassword()
+
                 ];
                 break;
             }
