@@ -57,7 +57,7 @@ class HistoryService
     {
         $history = $this->storage->read();
         return array_filter($history, function ($g) use ($user) {
-            return isset($g['id']) && $g['id'] === $user->getId();
+            return isset($g['id']) && $g['id'] == $user->getId();
         });
     }
 
@@ -79,7 +79,7 @@ class HistoryService
             $bet = (float)$game['bet'];
             $payout = (float)$game['pay_out'];
             $sumOfBets += $bet;
-            if (!isset($gameCount['type'])) {
+            if (!isset($gameCount[$type])) {
                 $gameCount[$type] = 0;
             }
             $gameCount[$type]++;
@@ -92,7 +92,6 @@ class HistoryService
         $mostProfitable = array_key_first($gameProfit);
         $leastProfitable = array_key_last($gameProfit);
         
-
         if ($total > 0) {
             $averegeBet = $sumOfBets / $total;
             $wins = count(array_filter($myGames, function ($g) {
