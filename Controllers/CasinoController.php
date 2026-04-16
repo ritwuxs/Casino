@@ -22,26 +22,22 @@ use Exception\Exceptions\BetException;
 use Exception\Exceptions\WrongType;
 use Exceptions\WrongType as ExceptionsWrongType;
 
-// TODO: вынести все из этого в CasinoController, приватные поля, основной метод, вспомогательные (в этом файле мы просто создаим объект контроллера, вызовем основной метод)
-// TODO: вынести из папки services, перенести в Controllers
-// TODO: logout
-// TODO: дописать контроллер
 class CasinoController
 {
-    private JsonStorage $userStorage;
-    private JsonStorage $historyStorage;
+    private JsonStorage $userStorage; // TODO: удаляем ненужные свойства
+    private JsonStorage $historyStorage; // TODO: удаляем ненужные свойства
     private ?User $currentUser = null;
     public function __construct(
-        private AuthService $authService,
+        private AuthService $authService, // TODO: сервисы инициализируем в контроллере
         private GameService $game,
         private HistoryService $history,
         private UserService $userService,
-        private \Helper\ReadConfig $config
+        private \Helper\ReadConfig $config // TODO: удаляем ненужные свойства
     ) {
         $this->userStorage = new JsonStorage('storage/user.json');
         $this->historyStorage = new JsonStorage('storage/history.json');
     }
-    public function run(): void
+    public function run(): void // TODO: обрабатываем все исключения
     {
         $this->currentUser = null;
         while (true) {

@@ -18,13 +18,14 @@ require_once 'Games/CoinFlip.php';
 require_once 'Games/Slots.php';
 require_once 'Games/Black_Jack.php';
 
-$userStorage = new \Helper\JsonStorage('storage/users.json');
-$historyStorage = new \Helper\JsonStorage('storage/history.json');
-$config = new \Helper\ReadConfig();
-$userService = new \Services\UserService($userStorage);
-$authService = new \Services\AuthService($userStorage);
-$historyService = new \Services\HistoryService($historyStorage);
+$userStorage = new \Helper\JsonStorage('storage/users.json'); // TODO: это уже в сервисе , удаляем
+$historyStorage = new \Helper\JsonStorage('storage/history.json'); // TODO: тоже самое
+$config = new \Helper\ReadConfig(); // TODO: выносим в сервисы в конструкторы
+$userService = new \Services\UserService($userStorage); // TODO: инициализация сервисов уже в контроллере , удаляем
+$authService = new \Services\AuthService($userStorage); // TODO: инициализация сервисов уже в контроллере , удаляем
+$historyService = new \Services\HistoryService($historyStorage); // TODO: инициализация сервисов уже в контроллере , удаляем
 $gameService = new \Services\GameService($userService, $historyService, $config);
+
 $controller = new \Controllers\CasinoController(
     $authService,
     $gameService,
@@ -32,4 +33,5 @@ $controller = new \Controllers\CasinoController(
     $userService,
     $config
 );
+
 $controller->run();

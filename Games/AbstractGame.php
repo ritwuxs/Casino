@@ -10,7 +10,7 @@ abstract class AbstractGame
     public function __construct(
         protected float $bet,
         protected float $minimalBet,
-        protected int $coefficient, // DO: coefficient
+        protected int $coefficient,
         protected GameType $type
     ) {}
 

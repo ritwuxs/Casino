@@ -10,7 +10,7 @@ class HistoryService
     private JsonStorage $storage;
     public function __construct(JsonStorage $storage)
     {
-        $this->storage = $storage;
+        $this->storage = $storage; // TODO: здесь можем сразу инициализировать storage , $this->storage = new JsonStorage(...);
     }
 
     public function logGame(int $userId, string $type, float $bet, bool $isWin, float $payout): void
@@ -62,11 +62,11 @@ class HistoryService
     }
 
     // DO: усложнить статистику, добавить больше данных
-    // - сумма всех ставок
-    // - средняя ставка
-    // - в какие игры сколько играл
-    // - Найприбутковіша гра
-    // - Самая убыточная
+    // - сумма всех ставок +
+    // - средняя ставка +
+    // - в какие игры сколько играл +
+    // - Найприбутковіша гра +
+    // - Самая убыточная +
     public function showUserStatistics(User $user): void
     {
         $myGames = $this->getHistory($user);
@@ -99,16 +99,16 @@ class HistoryService
             }));
             $winrate =  round(($wins / $total) * 100, 2);
             echo "Your Winrate: $winrate % (games played: $total)" . PHP_EOL;
-            echo "Your total sum of money: $sumOfBets grn:" . PHP_EOL;
-            echo "Your averege bet is: round($averegeBet) grn" . PHP_EOL;
+            echo "Your total sum of money: $sumOfBets grn:" . PHP_EOL; // TODO: sum of bets
+            echo "Your averege bet is: " . round($averegeBet) . " grn" . PHP_EOL;
             echo "--- GAMES COUNT ---" . PHP_EOL;
             foreach ($gameCount as $name => $count) {
                 echo "- $name: $count times" . PHP_EOL;
             }
 
             echo "--- PROFITABILITY ---" . PHP_EOL;
-            echo "Most profitable game: $mostProfitable (" . $gameProfit[$mostProfitable] . " grn)" . PHP_EOL;
-            echo "Most loss-making game: $leastProfitable (" . $gameProfit[$leastProfitable] . " grn)" . PHP_EOL;
+            echo "Most profitable game: $mostProfitable (" . $gameProfit[$mostProfitable] . " grn)" . PHP_EOL; // TODO: багует
+            echo "Most loss-making game: $leastProfitable (" . $gameProfit[$leastProfitable] . " grn)" . PHP_EOL; // TODO: багует
         } else {
             echo "There have been no games yet, the statistics are empty." . PHP_EOL;
         }

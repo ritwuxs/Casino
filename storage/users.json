@@ -4,5 +4,11 @@
         "name": "ritwuxs",
         "balance": 2500,
         "password": "12"
+    },
+    {
+        "id": 2,
+        "name": "Dima",
+        "balance": 2850,
+        "password": "1111"
     }
 ]

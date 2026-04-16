@@ -14,15 +14,15 @@ class AuthService
     private JsonStorage $storage;
     public function __construct(JsonStorage $storage)
     {
-        $this->storage = $storage;
+        $this->storage = $storage; // TODO: здесь можем сразу инициализировать storage , $this->storage = new JsonStorage(...);
     }
 
-    public function registration(string $name, string $password): void // DO: подтверждение пароля
+    public function registration(string $name, string $password): void 
     {
         $users = $this->storage->read();
 
         foreach ($users as $user) {
-            if ($user['name'] === $name) { //DO: достаточно проверить по username
+            if ($user['name'] === $name) {
                 throw new UserAlreadyExistsException();
             }
         }

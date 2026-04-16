@@ -13,7 +13,7 @@ class User
         private string $password
     ) {}
 
-    public function getId(): int // DO: getId()
+    public function getId(): int
     {
         return $this->id;
     }

@@ -28,11 +28,12 @@ class GameService
 
     public function __construct(UserService $userService, HistoryService $historyService,ReadConfig $config)
     {
-        $this->userService = $userService;
+        $this->userService = $userService; // TODO: $this->userService = new UserService(...); и так же для остальных сервисов
         $this->historyService = $historyService;
-        $this->config = $config;
+        $this->config = $config; // TODO: $this->config = new ReadConfig(...);
     }
 
+    // TODO: (!!! - пока не делаем) , сделать уникальный чит мод для каждой игры
     public function shouldCheat(): bool
     {
         $isEnable = $this->config->get('CHEAT_MODE') == true;

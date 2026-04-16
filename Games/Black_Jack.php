@@ -5,14 +5,14 @@ namespace Games;
 use Enums\GameType;
 use Games\AbstractGame;
 
-class Black_Jack extends AbstractGame
+class Black_Jack extends AbstractGame // TODO: rename to BlackJack
 {
     public function __construct(float $bet,  int $coficient = 20, float $minimalBet = 10)
     {
         parent::__construct($bet, $minimalBet, $coficient, GameType::COIN_FLIP);
     }
-    
-    public function play(): array
+
+    public function play(): array // TODO:
     {
         $playerPoints = random_int(2, 11) + random_int(2, 11);
         while (true) {
@@ -54,7 +54,6 @@ class Black_Jack extends AbstractGame
             'payout' => $payout,
             'message' => $message,
             'roll' => $playerPoints
-
         ];
     }
 }

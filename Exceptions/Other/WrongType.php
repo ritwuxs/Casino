@@ -5,7 +5,7 @@ namespace Exceptions;
 use Exception;
 use Throwable;
 
-class WrongType extends Exception
+class WrongType extends Exception // TODO: Вынесем в корень папки + дадим более понятное название
 {
     public function __construct(
         string $message = "You choised wrong type",

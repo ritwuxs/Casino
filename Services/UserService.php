@@ -16,7 +16,7 @@ class UserService
     private JsonStorage $storage;
     public function __construct(JsonStorage $storage)
     {
-        $this->storage = $storage;
+        $this->storage = $storage; // TODO: здесь можем сразу инициализировать storage , $this->storage = new JsonStorage(...);
     }
 
     public function updateUser(User $user): void
@@ -66,6 +66,6 @@ class UserService
     public function makeBet(): float
     {
         $input = readline("Enter your bet: ");
-        return (float)$input; // DO: return (float) $input
+        return (float)$input;
     }
 }
