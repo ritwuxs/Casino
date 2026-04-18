@@ -36,7 +36,7 @@ class HistoryService
         echo "---------------------------------" . PHP_EOL;
         $found = false;
         foreach ($allHistory as $record) {
-            if (isset($record['id']) && $record['id'] === $userId) {
+            if (isset($record['id']) && $record['id'] == $userId) {
                 $status = ($record['is_won'] ?? false) ? "Win" : "Loss";
                 $game   = $record['game_type'] ?? "Unknown";
                 $payout = $record['pay_out'] ?? 0;
@@ -95,7 +95,7 @@ class HistoryService
         if ($total > 0) {
             $averegeBet = $sumOfBets / $total;
             $wins = count(array_filter($myGames, function ($g) {
-                return isset($g['is_won']) && $g['is_won'] === true;
+                return isset($g['is_won']) && $g['is_won'] == true;
             }));
             $winrate =  round(($wins / $total) * 100, 2);
             echo "Your Winrate: $winrate % (games played: $total)" . PHP_EOL;
