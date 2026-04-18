@@ -190,5 +190,29 @@
         "is_won": true,
         "pay_out": 880,
         "date": "2026-04-18 06:55:50"
+    },
+    {
+        "id": 1,
+        "game_type": "DICE",
+        "bet": 34,
+        "is_won": false,
+        "pay_out": 0,
+        "date": "2026-04-18 08:15:31"
+    },
+    {
+        "id": 1,
+        "game_type": "COIN_FLIP",
+        "bet": 33,
+        "is_won": true,
+        "pay_out": 66,
+        "date": "2026-04-18 08:15:45"
+    },
+    {
+        "id": 1,
+        "game_type": "SLOTS",
+        "bet": 67,
+        "is_won": false,
+        "pay_out": 0,
+        "date": "2026-04-18 08:16:25"
     }
 ]

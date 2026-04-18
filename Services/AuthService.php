@@ -18,7 +18,7 @@ class AuthService
         $this->storage = new JsonStorage('storage/users.json'); // DO: здесь можем сразу инициализировать storage , $this->storage = new JsonStorage(...);
     }
 
-    public function registration(string $name, string $password): void 
+    public function registration(string $name, string $password): void
     {
         $users = $this->storage->read();
 
@@ -37,8 +37,7 @@ class AuthService
                 'password' => $password
             ];
             $this->storage->write($users);
-        }
-        else{
+        } else {
             throw new FaildRegistration();
         }
     }

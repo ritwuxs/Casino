@@ -2,7 +2,7 @@
 
 namespace Models;
 
-use Exceptions\InsufficientBalanceException;
+use Exception\Exceptions\InsufficientBalanceException;
 
 class User
 {

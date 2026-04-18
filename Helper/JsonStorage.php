@@ -2,8 +2,9 @@
 
 namespace Helper;
 
-use Exceptions\InvalidArgumentException;
-use Exceptions\FilesExceptions\FileDoNotExists;
+use Exception\Exceptions\InvalidArgumentException;
+use Exception\Exceptions\FileDoNotExists;
+
 class JsonStorage
 {
     private string $filePath;

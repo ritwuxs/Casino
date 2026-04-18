@@ -23,7 +23,7 @@ class CoinFlip extends AbstractGame
         $is_won = ($winningSide === $userSite);
         $payout = $is_won ? ($this->bet * $this->coefficient) : 0;
         $message = $is_won
-            ? "Fell out:" . $winningSide->name . "You won $payout grn!"
+            ? "Fell out:" . $winningSide->name . "\nYou won $payout grn!"
             : "Fell out:" . $winningSide->name . "You lost the bet.";
         return [
             'is_won'   => $is_won,

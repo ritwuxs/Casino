@@ -11,7 +11,7 @@ class Dice extends AbstractGame
     {
         parent::__construct($bet, $minimalBet, $coficient, GameType::DICE);
     }
-    
+
     public function play(): array
     {
         $num = (int)readline("What number do we bet on? (1-6)? ");
@@ -20,8 +20,8 @@ class Dice extends AbstractGame
         $is_won = ($roll === $num);
         $payout = $is_won ? ($this->bet * $this->coefficient) : 0;
         $message = $is_won
-            ? "Congratulations! It's out $roll. You won $payout coins!"
-            : "It's a pity, but it fell out $roll.You lost the bet.";
+            ? "Congratulations! It's  $roll. You won $payout coins!"
+            : "It's a pity, but it is $roll.You lost the bet.";
 
         return [
             'is_won'   => $is_won,

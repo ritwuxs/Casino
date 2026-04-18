@@ -58,7 +58,7 @@ class CasinoController
 
                         $this->authService->registration($name, $password);
                         echo "You have successfully registered! Now log in." . PHP_EOL;
-                    } elseif ($action === '0') { 
+                    } elseif ($action === '0') {
                         echo "Exit.." . PHP_EOL;
                         break;
                     } else {
@@ -71,59 +71,59 @@ class CasinoController
             }
             $this->showMenu($this->currentUser);
             $choise = readline("Choose action: ");
-            try{
-            switch ($choise) {
-                case '1':
-                    try {
-                        $this->whatToPlay();
-                        $typeGame = readline("Choose 1,2,3 or 4: ");
-                        $selectedEnum = match ($typeGame) {
-                            '1' => \Enums\GameType::DICE,
-                            '2' => \Enums\GameType::COIN_FLIP,
-                            '3' => \Enums\GameType::SLOTS,
-                            '4' => \Enums\GameType::BLACK_JACK,
-                            default => throw new InvalidGameTypeException()
-                        };
-                        if ($selectedEnum === null) {
-                            throw new InvalidGameTypeException();
+            try {
+                switch ($choise) {
+                    case '1':
+                        try {
+                            $this->whatToPlay();
+                            $typeGame = readline("Choose 1,2,3 or 4: ");
+                            $selectedEnum = match ($typeGame) {
+                                '1' => \Enums\GameType::DICE,
+                                '2' => \Enums\GameType::COIN_FLIP,
+                                '3' => \Enums\GameType::SLOTS,
+                                '4' => \Enums\GameType::BLACK_JACK,
+                                default => throw new InvalidGameTypeException()
+                            };
+                            if ($selectedEnum === null) {
+                                throw new InvalidGameTypeException();
+                            }
+                            $bet = readline("Your bet: ");
+
+                            $result = $this->game->runGame($this->currentUser, $selectedEnum, (float)$bet);
+                            echo $result['message'] . PHP_EOL;
+                            break;
+                        } catch (InvalidGameTypeException) {
+                            echo "WARNING: " . $e->getMessage() . PHP_EOL;
+                        } catch (InsufficientFundsException $e) {
+                            echo "There is little money: " . $e->getMessage() . PHP_EOL;
+                        } catch (\Exception $e) {
+                            echo "An error occurred: " . $e->getMessage() . PHP_EOL;
                         }
-                        $bet = readline("Your bet: ");
-
-                        $result = $this->game->runGame($this->currentUser, $selectedEnum, (float)$bet);
-                        echo $result['message'] . PHP_EOL;
+                        readline("Press Enter to continue...");
                         break;
-                    } catch (InvalidGameTypeException) {
-                        echo "WARNING: " . $e->getMessage() . PHP_EOL;
-                    } catch (InsufficientFundsException $e) {
-                        echo "There is little money: " . $e->getMessage() . PHP_EOL;
-                    } catch (\Exception $e) {
-                        echo "An error occurred: " . $e->getMessage() . PHP_EOL;
-                    }
-                    readline("Press Enter to continue...");
-                    break;
-                case '2':
-                    $this->handleDeposit();
-                    break;
+                    case '2':
+                        $this->handleDeposit();
+                        break;
 
-                case '3':
-                    $this->history->showUserHistory($this->currentUser->getId());
-                    break;
+                    case '3':
+                        $this->history->showUserHistory($this->currentUser->getId());
+                        break;
 
-                case '4':
-                    echo " Your current balance: " . $this->currentUser->getBalance() . " grn" . PHP_EOL;
-                    break;
+                    case '4':
+                        echo " Your current balance: " . $this->currentUser->getBalance() . " grn" . PHP_EOL;
+                        break;
 
-                case '5':
-                    $this->history->showUserStatistics($this->currentUser);
-                    break;
+                    case '5':
+                        $this->history->showUserStatistics($this->currentUser);
+                        break;
 
-                case '6':
-                    $this->handleLogout();
-                    break;
+                    case '6':
+                        $this->handleLogout();
+                        break;
 
-                case '7':
-                    echo "Exiting the casino. Good luck!" . PHP_EOL;
-                    exit;
+                    case '7':
+                        echo "Exiting the casino. Good luck!" . PHP_EOL;
+                        exit;
                     default:
                         echo "Invalid option. Please choose 1-7." . PHP_EOL;
                 }
@@ -134,9 +134,9 @@ class CasinoController
             } catch (\Exception $e) {
                 echo "An unexpected error occurred: " . $e->getMessage() . PHP_EOL;
             }
-            }
-            readline("Press Enter to continue...");
         }
+        readline("Press Enter to continue...");
+    }
     public function handleDeposit(): void
     {
         try {
