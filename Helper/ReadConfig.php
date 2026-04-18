@@ -2,7 +2,7 @@
 
 namespace Helper;
 
-use Exceptions\FilesExceptions\FileDoNotExists;
+use Exception\Exceptions\FileDoNotExists;
 
 class ReadConfig
 {
