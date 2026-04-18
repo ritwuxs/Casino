@@ -1,11 +1,11 @@
 <?php
 
-namespace Exceptions;
+namespace Exception\Exceptions;
 
 use Exception;
 use Throwable;
 
-class BetExceedsBalanceException extends Exception
+class BetExceedsBalanceException extends \Exception
 {
     public function __construct(
         string $message = "Bet can not be bigger than balance",

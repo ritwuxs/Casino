@@ -1,11 +1,11 @@
 <?php
 
-namespace Exceptions;
+namespace Exception\Exceptions;
 
 use Exception;
 use Throwable;
 
-class InsufficientBalanceException extends Exception
+class InsufficientBalanceException extends \Exception
 {
 
     public function __construct(

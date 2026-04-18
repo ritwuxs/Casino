@@ -1,11 +1,11 @@
 <?php
 
-namespace Exceptions;
+namespace Exception\Exceptions;
 
 use Exception;
 use Throwable;
 
-class NegativeAmountException extends Exception
+class NegativeAmountException extends \Exception
 {
     public function __construct(
         string $message = "Amount could not be negative",

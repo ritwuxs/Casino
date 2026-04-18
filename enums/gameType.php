@@ -2,7 +2,7 @@
 
 namespace Enums;
 
-// TODO: rename to GameType
+// DO: rename to GameType
 enum GameType: int
 {
     case DICE = 1;

@@ -7,16 +7,16 @@ use Services\HistoryService;
 
 use Helper\ReadConfig;
 use enums\GameType;
-use Exceptions\BetExceedsBalanceException;
-use Exceptions\MinBetLimitException;
+use Exception\Exceptions\BetExceedsBalanceException;
+use Exception\Exceptions\MinBetLimitException;
 use Games\AbstractGame;
 use Games\CoinFlip;
 use Games\Dice;
 use Games\Slots;
 use Helper\JsonStorage;
 use Models\User;
-use Exceptions\NegativeBetException;
-use Games\Black_Jack;
+use Exception\Exceptions\NegativeBetException;
+use Games\BlackJack;
 
 class GameService
 {
@@ -26,11 +26,11 @@ class GameService
     private HistoryService $historyService;
     private ReadConfig $config;
 
-    public function __construct(UserService $userService, HistoryService $historyService,ReadConfig $config)
+    public function __construct()
     {
-        $this->userService = $userService; // TODO: $this->userService = new UserService(...); и так же для остальных сервисов
-        $this->historyService = $historyService;
-        $this->config = $config; // TODO: $this->config = new ReadConfig(...);
+        $this->userService = new UserService(); // DO: $this->userService = new UserService(...); и так же для остальных сервисов
+        $this->historyService = new HistoryService();;
+        $this->config = new ReadConfig('.env'); // DO: $this->config = new ReadConfig(...);
     }
 
     // TODO: (!!! - пока не делаем) , сделать уникальный чит мод для каждой игры
@@ -63,7 +63,7 @@ class GameService
             GameType::DICE => new Dice($bet),
             GameType::COIN_FLIP => new CoinFlip($bet),
             GameType::SLOTS => new Slots($bet),
-            GameType::BLACK_JACK => new Black_Jack($bet)
+            GameType::BLACK_JACK => new BlackJack($bet)
         };
     }
 

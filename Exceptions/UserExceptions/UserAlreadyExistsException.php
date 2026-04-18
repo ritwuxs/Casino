@@ -1,12 +1,12 @@
 <?php
 
-namespace Exceptions;
+namespace Exception\Exceptions;
 
 use Exception;
 use Throwable;
 
 
-class UserAlreadyExistsException extends Exception
+class UserAlreadyExistsException extends \Exception
 {
     public function __construct(
         string $message = "User arleady exists.UserName has to be uniq",

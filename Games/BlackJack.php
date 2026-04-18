@@ -5,7 +5,7 @@ namespace Games;
 use Enums\GameType;
 use Games\AbstractGame;
 
-class Black_Jack extends AbstractGame // TODO: rename to BlackJack
+class BlackJack extends AbstractGame // TODO: rename to BlackJack
 {
     public function __construct(float $bet,  int $coficient = 20, float $minimalBet = 10)
     {

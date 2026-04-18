@@ -1,11 +1,11 @@
 <?php
 
-namespace Exceptions;
+namespace Exception\Exceptions;
 
 use Exception;
 use Throwable;
 
-class UserNotFoundException extends Exception
+class UserNotFoundException extends \Exception
 {
     public function __construct(
         string $message = "User not found in the system",

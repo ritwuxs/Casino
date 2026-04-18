@@ -18,26 +18,27 @@ use Exception\Exceptions\InsufficientFundsException;
 use Exception\Exceptions\NegativeAmountException;
 use Exception\Exceptions\UserAlreadyExistsException;
 use Exception\Exceptions\UserNotFoundException;
-use Exception\Exceptions\BetException;
-use Exception\Exceptions\WrongType;
-use Exceptions\WrongType as ExceptionsWrongType;
+use Exception\Exceptions\InvalidGameTypeException;
 
 class CasinoController
 {
-    private JsonStorage $userStorage; // TODO: удаляем ненужные свойства
-    private JsonStorage $historyStorage; // TODO: удаляем ненужные свойства
+    //DO: удаляем ненужные свойства
+    // DO: удаляем ненужные свойства
     private ?User $currentUser = null;
-    public function __construct(
-        private AuthService $authService, // TODO: сервисы инициализируем в контроллере
-        private GameService $game,
-        private HistoryService $history,
-        private UserService $userService,
-        private \Helper\ReadConfig $config // TODO: удаляем ненужные свойства
-    ) {
-        $this->userStorage = new JsonStorage('storage/user.json');
-        $this->historyStorage = new JsonStorage('storage/history.json');
+    private AuthService $authService;
+    private GameService $game;
+    private HistoryService $history;
+    private UserService $userService;
+    public function __construct()
+    {
+        $storage = new \Helper\JsonStorage('storage/users.json');
+
+        $this->authService = new AuthService(); // DO: сервисы инициализируем в контроллере
+        $this->userService = new UserService();
+        $this->history = new HistoryService();
+        $this->game = new GameService();
     }
-    public function run(): void // TODO: обрабатываем все исключения
+    public function run(): void // DO: обрабатываем все исключения
     {
         $this->currentUser = null;
         while (true) {
@@ -57,9 +58,11 @@ class CasinoController
 
                         $this->authService->registration($name, $password);
                         echo "You have successfully registered! Now log in." . PHP_EOL;
-                    } else {
+                    } elseif ($action === '0') { 
                         echo "Exit.." . PHP_EOL;
                         break;
+                    } else {
+                        echo "Unknown action. Try again." . PHP_EOL;
                     }
                 } catch (\Exception $e) {
                     echo "Error: " . $e->getMessage() . PHP_EOL;
@@ -68,27 +71,33 @@ class CasinoController
             }
             $this->showMenu($this->currentUser);
             $choise = readline("Choose action: ");
+            try{
             switch ($choise) {
                 case '1':
-                    $this->whatToPlay();
-                    $typeGame = readline("Choose 1,2,3 or 4: ");
-                    $selectedEnum = match ($typeGame) {
-                        '1' => \Enums\gameType::DICE,
-                        '2' => \Enums\gameType::COIN_FLIP,
-                        '3' => \Enums\gameType::SLOTS,
-                        '4' => \Enums\gameType::BLACK_JACK,
-                        default => null
-                    };
-                    if ($selectedEnum === null) {
-                        throw new ExceptionsWrongType();
-                    }
-                    $bet = readline("Your bet: ");
                     try {
+                        $this->whatToPlay();
+                        $typeGame = readline("Choose 1,2,3 or 4: ");
+                        $selectedEnum = match ($typeGame) {
+                            '1' => \Enums\GameType::DICE,
+                            '2' => \Enums\GameType::COIN_FLIP,
+                            '3' => \Enums\GameType::SLOTS,
+                            '4' => \Enums\GameType::BLACK_JACK,
+                            default => throw new InvalidGameTypeException()
+                        };
+                        if ($selectedEnum === null) {
+                            throw new InvalidGameTypeException();
+                        }
+                        $bet = readline("Your bet: ");
+
                         $result = $this->game->runGame($this->currentUser, $selectedEnum, (float)$bet);
                         echo $result['message'] . PHP_EOL;
                         break;
+                    } catch (InvalidGameTypeException) {
+                        echo "WARNING: " . $e->getMessage() . PHP_EOL;
+                    } catch (InsufficientFundsException $e) {
+                        echo "There is little money: " . $e->getMessage() . PHP_EOL;
                     } catch (\Exception $e) {
-                        echo "Error" . $e->getMessage() . PHP_EOL;
+                        echo "An error occurred: " . $e->getMessage() . PHP_EOL;
                     }
                     readline("Press Enter to continue...");
                     break;
@@ -115,15 +124,32 @@ class CasinoController
                 case '7':
                     echo "Exiting the casino. Good luck!" . PHP_EOL;
                     exit;
+                    default:
+                        echo "Invalid option. Please choose 1-7." . PHP_EOL;
+                }
+            } catch (InvalidGameTypeException) {
+                echo "WARNING: " . $e->getMessage() . PHP_EOL;
+            } catch (\Exception\Exceptions\InsufficientFundsException $e) {
+                echo "Balance Error: " . $e->getMessage() . PHP_EOL;
+            } catch (\Exception $e) {
+                echo "An unexpected error occurred: " . $e->getMessage() . PHP_EOL;
             }
+            }
+            readline("Press Enter to continue...");
         }
-    }
     public function handleDeposit(): void
     {
-        echo "Enter amount: ";
-        $amount = readLine("");
-        $this->userService->deposit($this->currentUser, (float)$amount);
-        $this->userService->updateUser($this->currentUser);
+        try {
+            echo "Enter amount: ";
+            $amount = readLine("");
+            $this->userService->deposit($this->currentUser, (float)$amount);
+            $this->userService->updateUser($this->currentUser);
+            echo "Balance successfully topped up!" . PHP_EOL;
+        } catch (NegativeAmountException $e) {
+            echo "Error: Amount cannot be negative." . PHP_EOL;
+        } catch (\Exception $e) {
+            echo "Error while replenishing: " . $e->getMessage() . PHP_EOL;
+        }
     }
     private function handleLogout(): void
     {

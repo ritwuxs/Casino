@@ -8,9 +8,9 @@ use Helper\JsonStorage;
 class HistoryService
 {
     private JsonStorage $storage;
-    public function __construct(JsonStorage $storage)
+    public function __construct()
     {
-        $this->storage = $storage; // TODO: здесь можем сразу инициализировать storage , $this->storage = new JsonStorage(...);
+        $this->storage = new JsonStorage('storage/history.json'); // DO: здесь можем сразу инициализировать storage , $this->storage = new JsonStorage(...);
     }
 
     public function logGame(int $userId, string $type, float $bet, bool $isWin, float $payout): void
@@ -89,8 +89,8 @@ class HistoryService
             $gameProfit[$type] += ($payout - $bet);
         }
         asort($gameProfit);
-        $mostProfitable = array_key_first($gameProfit);
-        $leastProfitable = array_key_last($gameProfit);
+        $leastProfitable = array_key_first($gameProfit);
+        $mostProfitable = array_key_last($gameProfit);
         
         if ($total > 0) {
             $averegeBet = $sumOfBets / $total;
@@ -99,7 +99,7 @@ class HistoryService
             }));
             $winrate =  round(($wins / $total) * 100, 2);
             echo "Your Winrate: $winrate % (games played: $total)" . PHP_EOL;
-            echo "Your total sum of money: $sumOfBets grn:" . PHP_EOL; // TODO: sum of bets
+            echo "Your total sum of bets: $sumOfBets grn:" . PHP_EOL; // DO: sum of bets
             echo "Your averege bet is: " . round($averegeBet) . " grn" . PHP_EOL;
             echo "--- GAMES COUNT ---" . PHP_EOL;
             foreach ($gameCount as $name => $count) {
@@ -107,8 +107,8 @@ class HistoryService
             }
 
             echo "--- PROFITABILITY ---" . PHP_EOL;
-            echo "Most profitable game: $mostProfitable (" . $gameProfit[$mostProfitable] . " grn)" . PHP_EOL; // TODO: багует
-            echo "Most loss-making game: $leastProfitable (" . $gameProfit[$leastProfitable] . " grn)" . PHP_EOL; // TODO: багует
+            echo "Least profitable game: $leastProfitable (" . $gameProfit[$leastProfitable] . " grn)" . PHP_EOL; // DO: багует
+            echo "Most profitable game: $mostProfitable (" . $gameProfit[$mostProfitable] . " grn)" . PHP_EOL; // DO: багует
         } else {
             echo "There have been no games yet, the statistics are empty." . PHP_EOL;
         }

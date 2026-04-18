@@ -1,11 +1,11 @@
 <?php
 
-namespace Exceptions;
+namespace Exception\Exceptions;
 
 use Exception;
 use Throwable;
 
-class InvalidArgumentException extends Exception
+class InvalidArgumentException extends \Exception
 {
     public function __construct(
         string $message = "Something went wrong with json file",

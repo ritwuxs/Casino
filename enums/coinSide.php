@@ -2,8 +2,8 @@
 
 namespace Enums;
 
-// TODO: rename to CoinSide
-// TODO: папку enums rename to Enums
+// DO: rename to CoinSide
+// DO: папку enums rename to Enums
 enum CoinSide: int
 {
     case OREL = 0;

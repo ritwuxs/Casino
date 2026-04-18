@@ -1,11 +1,11 @@
 <?php
 
-namespace Exceptions\FilesExceptions;
+namespace Exception\Exceptions;
 
 use Exception;
 use Throwable;
 
-class FileDoNotExists extends Exception
+class FileDoNotExists extends \Exception
 {
     public function __construct(
         string $message = "File do not exists",

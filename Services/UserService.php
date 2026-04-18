@@ -3,10 +3,10 @@
 namespace Services;
 
 use Models\User;
-use Exceptions\UserAlreadyExistsException;
-use Exceptions\UserNotFoundException;
-use Exceptions\NegativeAmountException;
-use Exceptions\InsufficientBalanceException;
+use Exception\Exceptions\UserAlreadyExistsException;
+use Exception\Exceptions\UserNotFoundException;
+use Exception\Exceptions\NegativeAmountException;
+use Exception\Exceptions\InsufficientBalanceException;
 
 
 use Helper\JsonStorage;
@@ -14,9 +14,9 @@ use Helper\JsonStorage;
 class UserService
 {
     private JsonStorage $storage;
-    public function __construct(JsonStorage $storage)
+    public function __construct()
     {
-        $this->storage = $storage; // TODO: здесь можем сразу инициализировать storage , $this->storage = new JsonStorage(...);
+        $this->storage = new JsonStorage('storage/users.json'); // DO: здесь можем сразу инициализировать storage , $this->storage = new JsonStorage(...);
     }
 
     public function updateUser(User $user): void

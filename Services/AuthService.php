@@ -3,8 +3,9 @@
 namespace Services;
 
 use Models\User;
-use Exceptions\UserAlreadyExistsException;
-use Exceptions\UserNotFoundException;
+use Exception\Exceptions\UserAlreadyExistsException;
+use Exception\Exceptions\UserNotFoundException;
+use Exception\Exceptions\FaildRegistration;
 
 use Helper\JsonStorage;
 
@@ -12,9 +13,9 @@ use Helper\JsonStorage;
 class AuthService
 {
     private JsonStorage $storage;
-    public function __construct(JsonStorage $storage)
+    public function __construct()
     {
-        $this->storage = $storage; // TODO: здесь можем сразу инициализировать storage , $this->storage = new JsonStorage(...);
+        $this->storage = new JsonStorage('storage/users.json'); // DO: здесь можем сразу инициализировать storage , $this->storage = new JsonStorage(...);
     }
 
     public function registration(string $name, string $password): void 
@@ -36,6 +37,9 @@ class AuthService
                 'password' => $password
             ];
             $this->storage->write($users);
+        }
+        else{
+            throw new FaildRegistration();
         }
     }
 

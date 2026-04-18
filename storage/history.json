@@ -126,5 +126,69 @@
         "is_won": true,
         "pay_out": 2000,
         "date": "2026-04-11 06:24:37"
+    },
+    {
+        "id": 1,
+        "game_type": "DICE",
+        "bet": 100,
+        "is_won": false,
+        "pay_out": 0,
+        "date": "2026-04-18 06:44:53"
+    },
+    {
+        "id": 1,
+        "game_type": "COIN_FLIP",
+        "bet": 100,
+        "is_won": true,
+        "pay_out": 200,
+        "date": "2026-04-18 06:45:12"
+    },
+    {
+        "id": 1,
+        "game_type": "SLOTS",
+        "bet": 100,
+        "is_won": true,
+        "pay_out": 500,
+        "date": "2026-04-18 06:45:24"
+    },
+    {
+        "id": 1,
+        "game_type": "BLACK_JACK",
+        "bet": 100,
+        "is_won": true,
+        "pay_out": 2000,
+        "date": "2026-04-18 06:46:57"
+    },
+    {
+        "id": 1,
+        "game_type": "DICE",
+        "bet": 100,
+        "is_won": false,
+        "pay_out": 0,
+        "date": "2026-04-18 06:55:01"
+    },
+    {
+        "id": 1,
+        "game_type": "COIN_FLIP",
+        "bet": 67,
+        "is_won": true,
+        "pay_out": 134,
+        "date": "2026-04-18 06:55:16"
+    },
+    {
+        "id": 1,
+        "game_type": "SLOTS",
+        "bet": 50,
+        "is_won": true,
+        "pay_out": 250,
+        "date": "2026-04-18 06:55:34"
+    },
+    {
+        "id": 1,
+        "game_type": "BLACK_JACK",
+        "bet": 44,
+        "is_won": true,
+        "pay_out": 880,
+        "date": "2026-04-18 06:55:50"
     }
 ]

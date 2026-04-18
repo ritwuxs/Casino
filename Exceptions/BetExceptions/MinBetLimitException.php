@@ -1,11 +1,11 @@
 <?php
 
-namespace Exceptions;
+namespace Exception\Exceptions;
 
 use Exception;
 use Throwable;
 
-class MinBetLimitException extends Exception
+class MinBetLimitException extends \Exception
 {
     public function __construct(
         string $message = "Minimal bet is 10",
