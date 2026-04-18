@@ -16,7 +16,7 @@ class UserService
     private JsonStorage $storage;
     public function __construct()
     {
-        $this->storage = new JsonStorage('storage/users.json'); // DO: здесь можем сразу инициализировать storage , $this->storage = new JsonStorage(...);
+        $this->storage = new JsonStorage('storage/users.json');
     }
 
     public function updateUser(User $user): void
@@ -25,7 +25,7 @@ class UserService
         foreach ($users as &$userData) {
             if ($userData['id'] === $user->getId()) {
                 $userData = [
-                    'id' => $user->getId(), //DO:Пробел
+                    'id' => $user->getId(),
                     'name' => $user->getName(),
                     'balance' => $user->getBalance(),
                     'password' => $user->getPassword()

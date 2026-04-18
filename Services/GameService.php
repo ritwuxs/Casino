@@ -20,17 +20,15 @@ use Games\BlackJack;
 
 class GameService
 {
-    // DO: удаляем переменные которые не используются
-
     private UserService $userService;
     private HistoryService $historyService;
     private ReadConfig $config;
 
     public function __construct()
     {
-        $this->userService = new UserService(); // DO: $this->userService = new UserService(...); и так же для остальных сервисов
+        $this->userService = new UserService(); 
         $this->historyService = new HistoryService();;
-        $this->config = new ReadConfig('.env'); // DO: $this->config = new ReadConfig(...);
+        $this->config = new ReadConfig('.env'); 
     }
 
     // TODO: (!!! - пока не делаем) , сделать уникальный чит мод для каждой игры

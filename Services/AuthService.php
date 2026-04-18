@@ -15,7 +15,7 @@ class AuthService
     private JsonStorage $storage;
     public function __construct()
     {
-        $this->storage = new JsonStorage('storage/users.json'); // DO: здесь можем сразу инициализировать storage , $this->storage = new JsonStorage(...);
+        $this->storage = new JsonStorage('storage/users.json');
     }
 
     public function registration(string $name, string $password): void

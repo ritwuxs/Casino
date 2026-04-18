@@ -34,14 +34,6 @@ require_once 'Games/CoinFlip.php';
 require_once 'Games/Slots.php';
 require_once 'Games/BlackJack.php';
 
-// DO: это уже в сервисе , удаляем
-// DO: тоже самоe
-// DO: выносим в сервисы в конструкторы
-// DO: инициализация сервисов уже в контроллере , удаляем
-// DO: инициализация сервисов уже в контроллере , удаляем
-// DO: инициализация сервисов уже в контроллере , удаляем
-
-
 $controller = new \Controllers\CasinoController();
 
 $controller->run();

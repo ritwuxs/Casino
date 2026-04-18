@@ -2,28 +2,17 @@
 
 namespace Controllers;
 
-use enums\GameType;
 use Models\User;
-use Helper\JsonStorage;
 use Services\UserService;
 use Services\HistoryService;
 use Services\GameService;
 use Services\AuthService;
-use Games\AbstractGame;
-use Games\CoinFlip;
-use Games\Dice;
-use Games\Slots;
-use Exception\Exceptions\InsufficientBalanceException;
 use Exception\Exceptions\InsufficientFundsException;
 use Exception\Exceptions\NegativeAmountException;
-use Exception\Exceptions\UserAlreadyExistsException;
-use Exception\Exceptions\UserNotFoundException;
 use Exception\Exceptions\InvalidGameTypeException;
 
 class CasinoController
 {
-    //DO: удаляем ненужные свойства
-    // DO: удаляем ненужные свойства
     private ?User $currentUser = null;
     private AuthService $authService;
     private GameService $game;
@@ -31,14 +20,12 @@ class CasinoController
     private UserService $userService;
     public function __construct()
     {
-        $storage = new \Helper\JsonStorage('storage/users.json');
-
-        $this->authService = new AuthService(); // DO: сервисы инициализируем в контроллере
+        $this->authService = new AuthService();
         $this->userService = new UserService();
         $this->history = new HistoryService();
         $this->game = new GameService();
     }
-    public function run(): void // DO: обрабатываем все исключения
+    public function run(): void
     {
         $this->currentUser = null;
         while (true) {
